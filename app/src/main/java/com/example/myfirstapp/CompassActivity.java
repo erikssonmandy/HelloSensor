@@ -30,6 +30,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     private boolean mLastMagnetometerSet = false;
     private Vibrator vibrator;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer2;
 
 
     @Override
@@ -43,7 +44,8 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         compass_img = (ImageView) findViewById(R.id.img_compasswhite);
         txt_compass = (TextView) findViewById(R.id.txt_azimuth);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.pling);
+        mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.plingpling);
+        mediaPlayer2 = MediaPlayer.create(getApplicationContext(), R.raw.dring);
 
         start();
     }
@@ -53,132 +55,142 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
 
 
-            if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-                SensorManager.getRotationMatrixFromVector(rMat, sensorEvent.values);
-                mAzimuth = (int) (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[0]) + 360) % 360;
-            }
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+            SensorManager.getRotationMatrixFromVector(rMat, sensorEvent.values);
+            mAzimuth = (int) (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[0]) + 360) % 360;
+        }
 
-            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                System.arraycopy(sensorEvent.values, 0, mLastAccelerometer, 0, sensorEvent.values.length);
-                mLastAccelerometerSet = true;
-            } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-                System.arraycopy(sensorEvent.values, 0, mLastMagnetometer, 0, sensorEvent.values.length);
-                mLastMagnetometerSet = true;
-            }
-            if (mLastAccelerometerSet && mLastMagnetometerSet) {
-                SensorManager.getRotationMatrix(rMat, null, mLastAccelerometer, mLastMagnetometer);
-                SensorManager.getOrientation(rMat, orientation);
-                mAzimuth = (int) (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[0]) + 360) % 360;
-            }
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            System.arraycopy(sensorEvent.values, 0, mLastAccelerometer, 0, sensorEvent.values.length);
+            mLastAccelerometerSet = true;
+        } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            System.arraycopy(sensorEvent.values, 0, mLastMagnetometer, 0, sensorEvent.values.length);
+            mLastMagnetometerSet = true;
+        }
+        if (mLastAccelerometerSet && mLastMagnetometerSet) {
+            SensorManager.getRotationMatrix(rMat, null, mLastAccelerometer, mLastMagnetometer);
+            SensorManager.getOrientation(rMat, orientation);
+            mAzimuth = (int) (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[0]) + 360) % 360;
+        }
 
-            mAzimuth = Math.round(mAzimuth);
-            compass_img.setRotation(-mAzimuth);
+        mAzimuth = Math.round(mAzimuth);
+        compass_img.setRotation(-mAzimuth);
 
-            String where = "NW";
+        String where = "NW";
 
-            if (mAzimuth >= 350 || mAzimuth <= 10){
-                where = "N";
-                vibrator.vibrate(400);
-                mediaPlayer.start();
-            }
-
-
-            if (mAzimuth < 350 && mAzimuth > 280){
-                where = "NW";
-
-            }
+        if (mAzimuth >= 350 || mAzimuth <= 10){
+            where = "N";
+            vibrator.vibrate(400);
+            mediaPlayer.start();
+        }
 
 
-            if (mAzimuth <= 280 && mAzimuth > 260){
-                where = "W";
-
-            }
-
-            if (mAzimuth <= 260 && mAzimuth > 190){
-                where = "SW";
-
-            }
-
-            if (mAzimuth <= 190 && mAzimuth > 170){
-                where = "S";
-
-            }
-
-            if (mAzimuth <= 170 && mAzimuth > 100){
-                where = "SE";
-
-            }
-
-            if (mAzimuth <= 100 && mAzimuth > 80){
-                where = "E";
-
-            }
-
-            if (mAzimuth <= 80 && mAzimuth > 10) {
-                where = "NE";
-
-            }
-
-
-            txt_compass.setText(mAzimuth + "° " + where);
+        if (mAzimuth < 350 && mAzimuth > 280){
+            where = "NW";
 
         }
 
 
-
-        @Override
-        public void onAccuracyChanged (Sensor sensor,int i){
+        if (mAzimuth <= 280 && mAzimuth > 260){
+            where = "W";
 
         }
-        public void start () {
-            if (mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) == null) {
-                if ((mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null) || (mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) == null)) {
-                    noSensorsAlert();
-                } else {
-                    mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                    mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-                    haveSensor = mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
-                    haveSensor2 = mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_UI);
-                }
-            } else {
-                mRotationV = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-                haveSensor = mSensorManager.registerListener(this, mRotationV, SensorManager.SENSOR_DELAY_UI);
-            }
+
+        if (mAzimuth <= 260 && mAzimuth > 190){
+            where = "SW";
+
         }
 
-        public void noSensorsAlert () {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setMessage("Your device doesn't support the Compass.")
-                    .setCancelable(false)
-                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                        }
-                    });
-            alertDialog.show();
+        if (mAzimuth <= 190 && mAzimuth > 170){
+            where = "S";
+            vibrator.vibrate(400);
+            mediaPlayer2.start();
+
         }
 
-        public void stop () {
-            if (haveSensor && haveSensor2) {
-                mSensorManager.unregisterListener(this, mAccelerometer);
-                mSensorManager.unregisterListener(this, mMagnetometer);
-            } else {
-                if (haveSensor)
-                    mSensorManager.unregisterListener(this, mRotationV);
-            }
+        if (mAzimuth <= 170 && mAzimuth > 100){
+            where = "SE";
+
         }
 
-        @Override
-        protected void onPause () {
-            super.onPause();
-            stop();
+        if (mAzimuth <= 100 && mAzimuth > 80){
+            where = "E";
+
         }
 
-        @Override
-        protected void onResume () {
-            super.onResume();
-            start();
+        if (mAzimuth <= 80 && mAzimuth > 10) {
+            where = "NE";
+
         }
+
+
+        txt_compass.setText("Direction: " + mAzimuth + "° " + where);
 
     }
+
+
+
+    @Override
+    public void onAccuracyChanged (Sensor sensor,int i){
+
+    }
+    public void start () {
+        if (mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) == null) {
+            if ((mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null) || (mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) == null)) {
+                noSensorsAlert();
+            } else {
+                mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+                mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+                haveSensor = mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+                haveSensor2 = mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_UI);
+            }
+        } else {
+            mRotationV = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+            haveSensor = mSensorManager.registerListener(this, mRotationV, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+
+    public void noSensorsAlert () {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setMessage("Your device doesn't support the Compass.")
+                .setCancelable(false)
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    public void stop () {
+        if (haveSensor && haveSensor2) {
+            vibrator.cancel();
+            mSensorManager.unregisterListener(this, mAccelerometer);
+            mSensorManager.unregisterListener(this, mMagnetometer);
+
+        } else {
+            if (haveSensor)
+                vibrator.cancel();
+                mSensorManager.unregisterListener(this, mRotationV);
+        }
+    }
+
+    @Override
+    protected void onPause () {
+        super.onPause();
+
+        stop();
+    }
+
+    @Override
+    protected void onResume () {
+        super.onResume();
+        start();
+    }
+
+
+
+}
+
+
 

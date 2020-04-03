@@ -5,7 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/background">
+    android:background="@drawable/texture"
+
+    android:id="@+id/container_toolbar"
+
+    android:orientation="vertical">
+
+
+>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
 
 
     <Button
@@ -14,11 +26,12 @@
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_marginTop="248dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/raleway_bold"
         android:onClick="startAccelerometer"
         android:text="@string/accelerometer"
         android:textSize="18sp"
         android:textStyle="bold"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,11 +42,12 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="250dp"
         android:layout_height="100dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/raleway_bold"
         android:onClick="startCompass"
         android:text="Compass"
         android:textSize="18sp"
         android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.0"

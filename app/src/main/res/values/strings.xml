@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">My First App</string>
-    <string name="edit_message">Enter a message</string>
+
+
     <string name="accelerometer">Accelerometer</string>
+
+    <string name="z_position">Z-POSITION:</string>
+    <string name="x_position">X-POSITION:</string>
+    <string name="y_position">Y-POSITION:</string>
+    <string name="flip_the_phone_and_see_what_happens">FLIP THE PHONE AND SEE WHAT HAPPENS!</string>
+    <string name="hello_sensor1">HELLO SENSOR!</string>
 </resources>

@@ -9,20 +9,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background="@color/background">
+    android:background="@drawable/texture">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/txt_azimuth"
-        android:layout_width="169dp"
-        android:layout_height="54dp"
+        android:layout_width="187dp"
+        android:layout_height="86dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/raleway_bold"
         android:text="0°"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/img_compasswhite"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,36 +48,34 @@
 
     <ImageView
         android:id="@+id/img_compasswhite"
-        android:layout_width="347dp"
-        android:layout_height="468dp"
+        android:layout_width="351dp"
+        android:layout_height="366dp"
         android:layout_below="@+id/txt_azimuth"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="52dp"
         android:src="@drawable/compasswhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@drawable/compasswhite" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="262dp"
-        android:layout_height="96dp"
-        android:text="WELCOME TO THE COMPASS! HIHI"
+        android:layout_width="241dp"
+        android:layout_height="61dp"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/raleway_bold"
+        android:text="WELCOME TO THE COMPASS!"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="73dp" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="77dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
