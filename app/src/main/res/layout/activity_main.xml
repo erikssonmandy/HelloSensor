@@ -6,19 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@drawable/texture"
-
     android:id="@+id/container_toolbar"
-
     android:orientation="vertical">
 
-
->
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
-
-
 
     <Button
         android:id="@+id/button"
@@ -31,7 +25,6 @@
         android:text="@string/accelerometer"
         android:textSize="18sp"
         android:textStyle="bold"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,16 +37,34 @@
         android:layout_height="100dp"
         android:fontFamily="@font/raleway_bold"
         android:onClick="startCompass"
-        android:text="Compass"
+        android:text="@string/compass"
         android:textSize="18sp"
         android:textStyle="bold"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/button"
         app:layout_constraintTop_toBottomOf="@+id/button"
         app:layout_constraintVertical_bias="0.148" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="376dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="@string/pick_a_sensor"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.021" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

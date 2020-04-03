@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,10 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
-    /** Called when the user taps the acceleromoter button */
     public void startAccelerometer(View view) {
         Intent intent = new Intent(getApplicationContext(), AccelerometerActivity.class);
         startActivity(intent);
@@ -32,6 +29,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), CompassActivity.class);
         startActivity(intent);
     }
-
 
 }

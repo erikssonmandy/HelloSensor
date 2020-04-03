@@ -2,9 +2,9 @@ package com.example.myfirstapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CompassActivity extends AppCompatActivity implements SensorEventListener {
+
     ImageView compass_img;
     TextView txt_compass;
     int mAzimuth;
@@ -32,9 +33,11 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     private MediaPlayer mediaPlayer;
     private MediaPlayer mediaPlayer2;
 
+    static final float ALPHA = 0.25f; // if ALPHA = 1 OR 0, no filter applies.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compass);
 
@@ -45,15 +48,13 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         txt_compass = (TextView) findViewById(R.id.txt_azimuth);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.plingpling);
-        mediaPlayer2 = MediaPlayer.create(getApplicationContext(), R.raw.dring);
+        mediaPlayer2 = MediaPlayer.create(getApplicationContext(), R.raw.drang);
 
         start();
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
-
 
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
             SensorManager.getRotationMatrixFromVector(rMat, sensorEvent.values);
@@ -76,56 +77,64 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         mAzimuth = Math.round(mAzimuth);
         compass_img.setRotation(-mAzimuth);
 
-        String where = "NW";
+        String direction = "NW";
 
         if (mAzimuth >= 350 || mAzimuth <= 10){
-            where = "N";
+            direction = "N";
             vibrator.vibrate(400);
+            txt_compass.setTextColor(Color.rgb(143, 200, 50));
             mediaPlayer.start();
         }
 
-
         if (mAzimuth < 350 && mAzimuth > 280){
-            where = "NW";
-
+            direction = "NW";
+            txt_compass.setTextColor(Color.WHITE);
         }
 
-
         if (mAzimuth <= 280 && mAzimuth > 260){
-            where = "W";
-
+            direction = "W";
+            txt_compass.setTextColor(Color.WHITE);
         }
 
         if (mAzimuth <= 260 && mAzimuth > 190){
-            where = "SW";
-
+            direction = "SW";
+            txt_compass.setTextColor(Color.WHITE);
         }
 
         if (mAzimuth <= 190 && mAzimuth > 170){
-            where = "S";
+            direction = "S";
             vibrator.vibrate(400);
             mediaPlayer2.start();
-
+            txt_compass.setTextColor(Color.rgb(255, 87, 34));
         }
 
         if (mAzimuth <= 170 && mAzimuth > 100){
-            where = "SE";
-
+            direction = "SE";
+            txt_compass.setTextColor(Color.WHITE);
         }
 
         if (mAzimuth <= 100 && mAzimuth > 80){
-            where = "E";
-
+            direction = "E";
+            txt_compass.setTextColor(Color.WHITE);
         }
 
         if (mAzimuth <= 80 && mAzimuth > 10) {
-            where = "NE";
-
+            direction = "NE";
+            txt_compass.setTextColor(Color.WHITE);
         }
 
+        txt_compass.setText("Direction: " + mAzimuth + "° " + direction);
 
-        txt_compass.setText("Direction: " + mAzimuth + "° " + where);
+    }
 
+    protected float[] lowPass( float[] input, float[] output ) {
+        if (output == null) return input;
+
+        for (int i = 0; i < input.length; i++) {
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
+        }
+
+        return output;
     }
 
 
@@ -134,6 +143,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     public void onAccuracyChanged (Sensor sensor,int i){
 
     }
+
     public void start () {
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) == null) {
             if ((mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null) || (mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) == null)) {
@@ -178,7 +188,6 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     @Override
     protected void onPause () {
         super.onPause();
-
         stop();
     }
 
