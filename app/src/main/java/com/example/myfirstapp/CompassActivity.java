@@ -3,12 +3,15 @@ package com.example.myfirstapp;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +28,8 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     private float[] mLastMagnetometer = new float[3];
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
+    private Vibrator vibrator;
+    private MediaPlayer mediaPlayer;
 
 
     @Override
@@ -35,8 +40,10 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        compass_img = (ImageView) findViewById(R.id.img_compass);
+        compass_img = (ImageView) findViewById(R.id.img_compasswhite);
         txt_compass = (TextView) findViewById(R.id.txt_azimuth);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.pling);
 
         start();
     }
@@ -69,27 +76,54 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
             String where = "NW";
 
-            if (mAzimuth >= 350 || mAzimuth <= 10)
+            if (mAzimuth >= 350 || mAzimuth <= 10){
                 where = "N";
-            if (mAzimuth < 350 && mAzimuth > 280)
+                vibrator.vibrate(400);
+                mediaPlayer.start();
+            }
+
+
+            if (mAzimuth < 350 && mAzimuth > 280){
                 where = "NW";
-            if (mAzimuth <= 280 && mAzimuth > 260)
+
+            }
+
+
+            if (mAzimuth <= 280 && mAzimuth > 260){
                 where = "W";
-            if (mAzimuth <= 260 && mAzimuth > 190)
+
+            }
+
+            if (mAzimuth <= 260 && mAzimuth > 190){
                 where = "SW";
-            if (mAzimuth <= 190 && mAzimuth > 170)
+
+            }
+
+            if (mAzimuth <= 190 && mAzimuth > 170){
                 where = "S";
-            if (mAzimuth <= 170 && mAzimuth > 100)
+
+            }
+
+            if (mAzimuth <= 170 && mAzimuth > 100){
                 where = "SE";
-            if (mAzimuth <= 100 && mAzimuth > 80)
+
+            }
+
+            if (mAzimuth <= 100 && mAzimuth > 80){
                 where = "E";
-            if (mAzimuth <= 80 && mAzimuth > 10)
+
+            }
+
+            if (mAzimuth <= 80 && mAzimuth > 10) {
                 where = "NE";
+
+            }
 
 
             txt_compass.setText(mAzimuth + "° " + where);
 
         }
+
 
 
         @Override
